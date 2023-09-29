@@ -59,9 +59,6 @@ for(let j=0; j < array.length; j++){
 console.log('Mang sau khi loai bo gia tri trung lap: ', array);
 
 
-
-
-
 //-----------------------------------------------------------------------------------//
 const users = [
     { id: 'john', name: "John Doe", age: 25 },
@@ -138,23 +135,39 @@ function xapxep(element, method_sort) {
 // xapxep('id', true);
 // console.log(users);
 
-// cat chuoi
-//map
-const firstGroup = users.map((user, index) => (index < 5 ? user : undefined)).filter(user => user !== undefined);
-const secondGroup = users.map((user, index) => (index >= 5 ? user : undefined)).filter(user => user !== undefined);
+// cat chuoi map
+const arrayFirst = users.map((user, index) => index < 5 ? user : undefined).filter(user => user !== undefined ? user : undefined);
+const arraySecond = users.map((user, index) => index >= 5 ? user : undefined).filter(user => user !== undefined ? user : undefined);
 
-console.log(firstGroup);
-console.log(secondGroup);
+console.log(arrayFirst, arraySecond);
 
+// cat chuoi reduce
+const arrayThird = users.reduce((previus, currentVallue, index) => {
+    index < 5 ? previus[0].push(currentVallue) : undefined;
+    index >= 5 ? previus[1].push(currentVallue) : undefined;
+    return previus;
+}, [[], []]);
+console.log(arrayThird);
 
-//reduce
-const groupedUsers = users.reduce((acc, user, index) => {
-    if (index % 5 === 0) {
-      acc.push([]);
+//cat chuoi filter
+const arrayFour = users.filter((user, index) => index < 5 ? user : undefined);
+const arrayFive = users.filter((user, index) => index >= 5? user : undefined);
+console.log(arrayFour, arrayFive);
+
+//cat chuoi for
+const arraySix = [], arraySeven = [];
+for(let i of users) 
+    users.indexOf(i) < 5 ? arraySix.push(i) : arraySeven.push(i);
+console.log(arraySix, arraySeven);
+
+//Cat chuoi bang cach khac
+const arrayCut = function arrayCut(users, index1, index2) {
+    const array = [[], []];
+    for(let i=index1; i < index2; i++){
+        array[0].push(users[i]);
+        users.splice(i, 1);
     }
-    const groupIndex = Math.floor(index / 5);
-    acc[groupIndex].push(user);
-    return acc;
-  }, []);
-  
-  console.log(groupedUsers);
+    array[1] = users;
+    return array;
+}
+console.log(arrayCut(users, 0, 5));
